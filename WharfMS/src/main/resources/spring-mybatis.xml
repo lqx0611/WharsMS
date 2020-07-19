@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 包扫描 -->
+    <context:component-scan base-package="com.lqx.service.impl"/>
+    <context:component-scan base-package="com.lqx.mapper"/>
+    <!-- 加载jdbc属性文件-->
+    <context:property-placeholder location="classpath:mysql.properties"/>
+    <!-- 基础数据源 -->
+    <bean id="basicDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driverName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- {4} 会话工厂 bean
+		mapperLocations: UserMapper.xml 存放位置。
+		configLocation: mybatis主配置的存放位置。
+		dataSource: 绑定数据源(连接池)。
+    -->
+    <bean id="sqlSessionFactoryBean"
+          class="org.mybatis.spring.SqlSessionFactoryBean" >
+        <property name="dataSource" ref="basicDataSource" />
+        <property name="mapperLocations" value="classpath:com/lqx/mapper/*.xml" />
+        <property name="configLocation" value="classpath:mybatis.cfg.xml" />
+    </bean>
+    <!-- {5} 映射扫描器
+		setBasePackage(basePackage);
+		扫描 Mapper 接口文件。
+		setSqlSessionFactoryBeanName(sqlSessionFactoryName);
+		通过 BeanId 名称来关联, 找到会话工厂。
+    -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.lqx.mapper" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean" />
+    </bean>
+
+    <!-- {ps} 下半场 -->
+    <!-- {5} 配置数据源事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="basicDataSource" />
+    </bean>
+    <!-- {6} 事务增强/事务通知 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 写方法 -->
+            <tx:method name="update*"  propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="sel*" propagation="REQUIRED"/>
+            <tx:method name="insert*" propagation="REQUIRED"/>
+            <!-- 读方法 -->
+            <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- {7} 事务通知/切面 -->
+    <aop:config>
+        <aop:pointcut id="pc1" expression="execution(* com.lqx.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pc1"/>
+    </aop:config>
+</beans>

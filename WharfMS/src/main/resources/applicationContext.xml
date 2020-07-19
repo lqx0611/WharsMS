@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- {ps}主配置不配置内容 -->
+    <!-- ...以后配置增强 AOP 相关功能... -->
+    <!-- {1}引Mybatis 相关配置-->
+    <import resource="spring-mybatis.xml" />
+
+    <!-- {2} 引工作流 相关配置
+    <import resource="spring-activity.xml"/>-->
+
+    <!-- {3} 引 shiro 相关配置
+    <import resource="spring-shiro.xml"/>-->
+</beans>

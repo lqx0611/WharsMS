@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lqx.mapper.ShipInfoMapper">
+  <resultMap id="BaseResultMap" type="com.lqx.pojo.ShipInfo">
+    <result column="_id" jdbcType="INTEGER" property="id" />
+    <result column="_no" jdbcType="VARCHAR" property="no" />
+    <result column="_type" jdbcType="VARCHAR" property="type" />
+    <result column="_name" jdbcType="VARCHAR" property="name" />
+    <result column="_captain" jdbcType="VARCHAR" property="captain" />
+    <result column="_company" jdbcType="VARCHAR" property="company" />
+    <result column="_capacity" jdbcType="INTEGER" property="capacity" />
+    <result column="_count" jdbcType="INTEGER" property="count" />
+    <result column="berth_no" jdbcType="VARCHAR" property="berthNo" />
+    <result column="ship_status" jdbcType="VARCHAR" property="shipStatus" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    _id, _no, _type, _name, _captain, _company, _capacity, _count, berth_no, ship_status, 
+    start_time, end_time
+  </sql>
+  <select id="selectByExample" parameterType="com.lqx.pojo.ShipInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ship_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+<!--    <if test="leftLimit != null &amp;&amp; limitSize!= null">-->
+<!--      limit ${leftLimit},${limitSize}-->
+<!--    </if>-->
+  </select>
+  <delete id="deleteByExample" parameterType="com.lqx.pojo.ShipInfoExample">
+    delete from ship_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lqx.pojo.ShipInfo">
+    insert into ship_info (_id, _no, _type, 
+      _name, _captain, _company, 
+      _capacity, _count, berth_no, 
+      ship_status, start_time, end_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{no,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{captain,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, 
+      #{capacity,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}, #{berthNo,jdbcType=VARCHAR}, 
+      #{shipStatus,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lqx.pojo.ShipInfo">
+    insert into ship_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        _id,
+      </if>
+      <if test="no != null">
+        _no,
+      </if>
+      <if test="type != null">
+        _type,
+      </if>
+      <if test="name != null">
+        _name,
+      </if>
+      <if test="captain != null">
+        _captain,
+      </if>
+      <if test="company != null">
+        _company,
+      </if>
+      <if test="capacity != null">
+        _capacity,
+      </if>
+      <if test="count != null">
+        _count,
+      </if>
+      <if test="berthNo != null">
+        berth_no,
+      </if>
+      <if test="shipStatus != null">
+        ship_status,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="no != null">
+        #{no,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="captain != null">
+        #{captain,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null">
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null">
+        #{capacity,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="berthNo != null">
+        #{berthNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shipStatus != null">
+        #{shipStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lqx.pojo.ShipInfoExample" resultType="java.lang.Long">
+    select count(*) from ship_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="count" resultType="java.lang.Integer" >
+    select count(*) from ship_info
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ship_info
+    <set>
+      <if test="record.id != null">
+        _id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.no != null">
+        _no = #{record.no,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        _type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        _name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.captain != null">
+        _captain = #{record.captain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.company != null">
+        _company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capacity != null">
+        _capacity = #{record.capacity,jdbcType=INTEGER},
+      </if>
+      <if test="record.count != null">
+        _count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.berthNo != null">
+        berth_no = #{record.berthNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipStatus != null">
+        ship_status = #{record.shipStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null">
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ship_info
+    set _id = #{record.id,jdbcType=INTEGER},
+      _no = #{record.no,jdbcType=VARCHAR},
+      _type = #{record.type,jdbcType=VARCHAR},
+      _name = #{record.name,jdbcType=VARCHAR},
+      _captain = #{record.captain,jdbcType=VARCHAR},
+      _company = #{record.company,jdbcType=VARCHAR},
+      _capacity = #{record.capacity,jdbcType=INTEGER},
+      _count = #{record.count,jdbcType=INTEGER},
+      berth_no = #{record.berthNo,jdbcType=VARCHAR},
+      ship_status = #{record.shipStatus,jdbcType=VARCHAR},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

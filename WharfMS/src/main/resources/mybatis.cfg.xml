@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- 控制台输出 sql语句-->
+		<setting name="logImpl" value="STDOUT_LOGGING"/>
+		<setting name="callSettersOnNulls" value="true"/>
+	</settings>
+	<typeAliases>
+		<package name="com.lqx.pojo" />
+	</typeAliases>
+
+	<!-- 这里以后要配置分页插件 -->
+<!--	<plugins>-->
+<!--		<plugin interceptor="com.github.pagehelper.PageHelper">-->
+<!--			<property name="dialect" value="mysql" />-->
+<!--			<property name="offsetAsPageNum" value="false" />-->
+<!--			<property name="rowBoundsWithCount" value="false" />-->
+<!--			<property name="pageSizeZero" value="true" />-->
+<!--			<property name="reasonable" value="false" />-->
+<!--			<property name="supportMethodsArguments" value="false" />-->
+<!--			<property name="returnPageInfo" value="none" />-->
+<!--		</plugin>-->
+<!--	</plugins>-->
+
+<!--	<plugins>-->
+<!--		<plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+<!--			&lt;!&ndash; 必须指定数据库的方言 &ndash;&gt;-->
+<!--&lt;!&ndash;			<property name="dialect" value="mysql"/>&ndash;&gt;-->
+<!--			&lt;!&ndash; 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 &ndash;&gt;-->
+<!--			&lt;!&ndash; 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 &ndash;&gt;-->
+<!--			<property name="reasonable" value="true"/>-->
+<!--		</plugin>-->
+<!--	</plugins>-->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<!-- 必须指定数据库的方言 -->
+			<property name="dialect" value="mysql"/>
+			<!-- 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页 -->
+			<!-- 禁用合理化时，如果pageNum<1或pageNum>pages会返回空数据 -->
+			<property name="reasonable" value="true"/>
+		</plugin>
+	</plugins>
+</configuration>
